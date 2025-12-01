@@ -8,6 +8,7 @@
 #include <mutex>
 #include <chrono>
 #include <ctime>
+#include <cstdlib>
 
 const int TRAINS = 8;
 
