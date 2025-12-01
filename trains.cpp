@@ -35,10 +35,7 @@ struct Station
         : name(stationName), gate(1) {}
 };
 
-void train(int id,
-           std::vector<Station*> route,
-           int travel_min_ms, int travel_max_ms,
-           int pause_min_ms,  int pause_max_ms)
+void train(int id, std::vector<Station*> route, int travel_min_ms, int travel_max_ms, int pause_min_ms,  int pause_max_ms)
 {
     int current_station = 0;
     int direction = 1;
@@ -53,10 +50,7 @@ void train(int id,
 
         {
             std::lock_guard<std::mutex> lock(guard);
-            std::cout << "[" << now() << "] "
-                      << "Train " << id
-                      << " arrived at " << st->name
-                      << " (" << (direction == 1 ? "->" : "<-") << ")\n";
+            std::cout << "[" << now() << "] " << "Train " << id << " arrived at " << st->name << " (" << (direction == 1 ? "->" : "<-") << ")\n";
         }
 
         int pause_time = random(pause_min_ms, pause_max_ms);
@@ -64,9 +58,7 @@ void train(int id,
 
         {
             std::lock_guard<std::mutex> lock(guard);
-            std::cout << "[" << now() << "] "
-                      << "Train " << id
-                      << " departed from " << st->name << "\n";
+            std::cout << "[" << now() << "] " << "Train " << id << " departed from " << st->name << "\n";
         }
 
         st->gate.release();
@@ -108,11 +100,7 @@ int main()
 
     for (int i = 0; i < TRAINS; i++)
     {
-        trains.push_back(std::thread(
-                             train, i + 1, route,
-                             2500, 4500,
-                             1500, 3000
-                         ));
+        trains.push_back(std::thread(train, i + 1, route, 2500, 4500, 1500, 3000));
     }
 
     for (auto& t : trains)
